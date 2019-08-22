@@ -16,12 +16,12 @@ sheet = client.open("testus").sheet1  # Open the spreadhseet
 
 data = sheet.get_all_records() #this will show to us all data
 numRows = len(data) +2#that how we gonna find last column
-#numRows = sheet.row_count #this is len of all columns
-stroka = sys.argv[1].rsplit('/')
 
-for i in range(len(stroka)):
+line = sys.argv[1].rsplit('/')
+
+for i in range(len(line)):
    i+1
-sheet.update_cell(numRows,1,stroka[i])
+sheet.update_cell(numRows,1,line[i])
 import subprocess
 out = subprocess.Popen(['wc', '-l',sys.argv[1]], 
            stdout=subprocess.PIPE, 
@@ -31,12 +31,14 @@ stroka = stdout.rsplit(' ')
 sheet.update_cell(numRows,3,stroka[0])
 subprocess.call("/home/hudson/workspace/JULIAN/split_csv_hash_salt.sh -f" + sys.argv[1], shell=True)
 
-algo = raw_input("Please enter alghoritm\n")
+algo = raw_input("Please enter alghoritm ('n'-Unknown; 's'-Special; 'p' -plaintext)\n")
 
 if algo == "n":
     sheet.update_cell(numRows,2,"UNKNOWN")
 elif algo == "s":
     sheet.update_cell(numRows,2,"SPECIAL")
+elif algo == "p":
+    sheet.update_cell(numRows,2,"PLAINTEXT")
 else:
     sheet.update_cell(numRows,2,algo)
 
@@ -53,6 +55,6 @@ out = subprocess.Popen(['wc', '-l', new3],
 stdout,stderr = out.communicate()
 stroka = stdout.rsplit(' ')
 sheet.update_cell(numRows,4,stroka[1])
-print(stroka[1])
+#print(stroka[1])
 #print(stdout)
 #print (output) 
