@@ -5,7 +5,7 @@ import sys
 inFile = sys.argv[1]
 shell=True
 import subprocess
-
+import datetime
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
 
 creds = ServiceAccountCredentials.from_json_keyfile_name("testSheets-6d40363997eb.json", scope)
@@ -55,6 +55,7 @@ out = subprocess.Popen(['wc', '-l', new3],
 stdout,stderr = out.communicate()
 stroka = stdout.rsplit(' ')
 sheet.update_cell(numRows,4,stroka[1])
+sheet.update_cell(numRows, 5, datetime.datetime.now().strftime('%Y-%m-%d'))
 #print(stroka[1])
 #print(stdout)
 #print (output) 
